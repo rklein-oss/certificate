@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Certificate of Completion</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- PDF Generation Script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+      font-family: 'Montserrat', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .action-bar {
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      background-color: #1b8a44;
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #certificate {
+      position: relative;
+      width: 800px;
+      height: 600px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
+
+    .bg-img {
+      width: 800px;
+      height: 600px;
+      display: block;
+    }
+
+    .field {
+      position: absolute;
+      width: 100%;
+      text-anchor: middle;
+      text-align: center;
+      color: #000000;
+    }
+
+    #participant-name {
+      top: 220px;
+      font-family: 'Caveat', cursive;
+      font-size: 48px;
+    }
+
+    #session-name {
+      top: 320px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    #cc-name {
+      top: 450px;
+      left: 200px;
+      width: 400px;
+      font-family: 'Caveat', cursive;
+      font-size: 28px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="action-bar">
+    <button class="btn" onclick="downloadPDF()">Download PDF Certificate</button>
+  </div>
+
+  <div id="certificate">
+    <img class="bg-img" src="https://custom.cvent.com/A0917A346BD845B8B6D4DBD3F95D536B/pix/c01dd3bed93d4b498faa3704c9ea3d1a.png" alt="Certificate Background">
+    
+    <div id="participant-name" class="field"></div>
+    <div id="session-name" class="field"></div>
+    <div id="cc-name" class="field"></div>
+  </div>
+
+  <script>
+    // Read the query variables sent from Cvent
+    const urlParams = new URLSearchParams(window.location.search);
+    const fname = urlParams.get('fname') || '';
+    const lname = urlParams.get('lname') || '';
+    const session = urlParams.get('session') || '';
+    const cc = urlParams.get('cc') || '';
+
+    // Put text onto the certificate
+    document.getElementById('participant-name').textContent = `${fname} ${lname}`.trim();
+    document.getElementById('session-name').textContent = session;
+    document.getElementById('cc-name').textContent = cc;
+
+    // Turn certificate element into a downloadable PDF file
+    function downloadPDF() {
+      const element = document.getElementById('certificate');
+      const opt = {
+        margin:       0,
+        filename:     `Certificate_${fname}_${lname}.pdf`.replace(/\s+/g, '_'),
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'px', format: [800, 600], orientation: 'landscape' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+
+</body>
+</html>
