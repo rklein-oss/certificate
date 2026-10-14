@@ -71,6 +71,13 @@
       font-size: 24px;
     }
 
+    #duration-name {
+      top: 350px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
     #cc-name {
       top: 430px;
       left: 400px;
@@ -91,6 +98,7 @@
     
     <div id="participant-name" class="field"></div>
     <div id="session-name" class="field"></div>
+    <div id="duration-name" class="field"></div>
     <div id="cc-name" class="field"></div>
   </div>
 
@@ -100,11 +108,13 @@
     const fname = urlParams.get('fname') || '';
     const lname = urlParams.get('lname') || '';
     const session = urlParams.get('session') || '';
+    const duration = urlParams.get('duration') || '';
     const cc = urlParams.get('cc') || '';
 
     // Put text onto the certificate
     document.getElementById('participant-name').textContent = `${fname} ${lname}`.trim();
     document.getElementById('session-name').textContent = session;
+    document.getElementById('duration-name').textContent = duration;
     document.getElementById('cc-name').textContent = cc;
 
     // Turn certificate element into a downloadable PDF file
